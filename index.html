@@ -1,31 +1,110 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>B/HCW NCC - 2027</title>
-
+  <title>WHC NCC 2027</title>
   <link rel="icon" type="image/png" href="whc.png">
-
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
+    *, *::before, *::after {
+      margin: 0; padding: 0; box-sizing: border-box;
+    }
+
+    :root {
+      --cyan: #00e5ff;
+      --blue: #0077ff;
+      --deep: #020b1a;
+      --mid: #061425;
+      --panel: rgba(0, 180, 255, 0.06);
+      --border: rgba(0, 229, 255, 0.15);
+      --border-glow: rgba(0, 229, 255, 0.4);
+    }
+
+    html, body {
+      height: 100%;
     }
 
     body {
-      min-height: 100vh;
-
-      background:
-        radial-gradient(circle at top, rgba(0, 200, 255, 0.2), transparent 40%),
-        #050e1f;
-
+      background: var(--deep);
       color: white;
+      font-family: 'Exo 2', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
 
+    /* ANIMATED GRID BACKGROUND */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,229,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,229,255,0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+      animation: gridDrift 20s linear infinite;
+      z-index: 0;
+    }
+
+    @keyframes gridDrift {
+      0% { background-position: 0 0; }
+      100% { background-position: 60px 60px; }
+    }
+
+    /* RADIAL GLOW ORBS */
+    .orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.18;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .orb-1 {
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, #00e5ff, transparent 70%);
+      top: -200px; left: -100px;
+      animation: float1 12s ease-in-out infinite;
+    }
+    .orb-2 {
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, #0055ff, transparent 70%);
+      bottom: -150px; right: -100px;
+      animation: float2 15s ease-in-out infinite;
+    }
+    .orb-3 {
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, #00ffcc, transparent 70%);
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      animation: float3 18s ease-in-out infinite;
+    }
+    @keyframes float1 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(40px,30px)} }
+    @keyframes float2 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-30px,-40px)} }
+    @keyframes float3 { 0%,100%{transform:translate(-50%,-50%) scale(1)} 50%{transform:translate(-50%,-50%) scale(1.2)} }
+
+    /* SCANLINE OVERLAY */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0,0,0,0.05) 2px,
+        rgba(0,0,0,0.05) 4px
+      );
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* LAYOUT */
+    .page {
+      position: relative;
+      z-index: 2;
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -34,164 +113,387 @@
     /* HEADER */
     .header {
       width: 100%;
-
+      padding: 20px 32px;
       display: flex;
       align-items: center;
       justify-content: center;
-
-      gap: 35px;
-
-      padding: 18px 25px;
-
-      background: rgba(8, 18, 35, 0.9);
-
-      backdrop-filter: blur(12px);
-
-      border-bottom: 2px solid rgba(0, 200, 255, 0.2);
-
-      box-shadow: 0 0 30px rgba(0, 200, 255, 0.1);
+      gap: 28px;
+      background: rgba(2, 11, 26, 0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      position: relative;
     }
 
-    /* LOGOS */
+    .header::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 10%;
+      right: 10%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+    }
+
+    .logo-wrap {
+      position: relative;
+      display: inline-flex;
+    }
+
     .logo {
-      width: 75px;
-      height: 75px;
-
+      width: 72px; height: 72px;
       object-fit: contain;
-
-      transition: 0.3s;
+      position: relative;
+      z-index: 1;
+      filter: drop-shadow(0 0 8px rgba(0,229,255,0.5));
+      transition: 0.4s cubic-bezier(0.23, 1, 0.32, 1);
     }
 
     .logo:hover {
-      transform: scale(1.1) rotate(3deg);
-
-      filter: drop-shadow(0 0 15px cyan);
+      transform: scale(1.15) rotate(5deg);
+      filter: drop-shadow(0 0 20px var(--cyan));
     }
 
-    /* TITLE */
-    h1 {
-      font-size: 40px;
-      letter-spacing: 3px;
-
+    /* TITLE BLOCK */
+    .title-block {
       text-align: center;
-
-      text-shadow:
-        0 0 10px rgba(0, 200, 255, 0.9),
-        0 0 20px rgba(0, 200, 255, 0.5);
+      flex: 1;
     }
 
-    /* BUTTON AREA */
-    .buttons {
-      width: 100%;
-      max-width: 400px;
+    .title-eyebrow {
+      font-family: 'Exo 2', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 6px;
+      text-transform: uppercase;
+      color: var(--cyan);
+      opacity: 0.7;
+      margin-bottom: 6px;
+    }
 
+    h1 {
+      font-family: 'Orbitron', monospace;
+      font-size: 36px;
+      font-weight: 800;
+      letter-spacing: 4px;
+      background: linear-gradient(135deg, #fff 30%, var(--cyan) 70%, #0077ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.1;
+    }
+
+    .title-sub {
+      font-size: 13px;
+      font-weight: 300;
+      letter-spacing: 3px;
+      color: rgba(255,255,255,0.45);
+      margin-top: 5px;
+      text-transform: uppercase;
+    }
+
+    /* DIVIDER */
+    .divider {
+      width: 120px;
+      height: 1px;
+      margin: 30px auto 0;
+      background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+      position: relative;
+    }
+
+    .divider::before {
+      content: '';
+      position: absolute;
+      top: -3px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--cyan);
+      box-shadow: 0 0 10px var(--cyan);
+    }
+
+    /* MAIN CONTENT */
+    .main {
+      flex: 1;
       display: flex;
       flex-direction: column;
-
-      gap: 25px;
-
-      margin-top: 70px;
-
-      padding: 20px;
-    }
-
-    /* BUTTONS */
-    .buttons a {
-      text-decoration: none;
-    }
-
-    .buttons button {
+      align-items: center;
+      justify-content: center;
+      padding: 60px 24px 80px;
       width: 100%;
-
-      padding: 18px;
-
-      border: none;
-      border-radius: 18px;
-
-      background: linear-gradient(135deg, #00cfff, #0066ff);
-
-      color: white;
-
-      font-size: 18px;
-      font-weight: bold;
-      letter-spacing: 1px;
-
-      cursor: pointer;
-
-      transition: 0.3s;
-
-      box-shadow:
-        0 0 15px rgba(0, 200, 255, 0.3),
-        inset 0 0 10px rgba(255, 255, 255, 0.1);
+      max-width: 520px;
+      gap: 0;
     }
 
-    .buttons button:hover {
-      transform: translateY(-5px) scale(1.03);
+    /* BADGE */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 18px;
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--cyan);
+      background: rgba(0,229,255,0.05);
+      margin-bottom: 32px;
+      animation: fadeIn 0.6s ease both;
+    }
 
-      box-shadow:
-        0 0 30px cyan,
-        0 0 50px rgba(0, 255, 255, 0.5);
+    .badge-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--cyan);
+      box-shadow: 0 0 8px var(--cyan);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%,100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.7); }
+    }
+
+    /* HERO HEADING */
+    .hero-heading {
+      font-family: 'Orbitron', monospace;
+      font-size: 18px;
+      font-weight: 600;
+      text-align: center;
+      letter-spacing: 2px;
+      color: rgba(255,255,255,0.85);
+      margin-bottom: 48px;
+      animation: fadeIn 0.6s 0.1s ease both;
+      line-height: 1.6;
+    }
+
+    .hero-heading span {
+      color: var(--cyan);
+    }
+
+    /* BUTTON CARDS */
+    .btn-list {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .btn-card {
+      position: relative;
+      text-decoration: none;
+      display: block;
+      animation: slideUp 0.5s ease both;
+    }
+
+    .btn-card:nth-child(1) { animation-delay: 0.15s; }
+    .btn-card:nth-child(2) { animation-delay: 0.25s; }
+    .btn-card:nth-child(3) { animation-delay: 0.35s; }
+
+    .btn-inner {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      padding: 20px 24px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+      cursor: pointer;
+    }
+
+    .btn-inner::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(0,229,255,0.08), transparent 60%);
+      opacity: 0;
+      transition: 0.35s;
+    }
+
+    .btn-inner::after {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+      background: linear-gradient(180deg, var(--cyan), var(--blue));
+      border-radius: 3px 0 0 3px;
+      transform: scaleY(0);
+      transition: 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    .btn-card:hover .btn-inner {
+      transform: translateX(6px);
+      border-color: var(--border-glow);
+      box-shadow: 0 0 30px rgba(0,229,255,0.12), inset 0 0 20px rgba(0,229,255,0.03);
+    }
+
+    .btn-card:hover .btn-inner::before { opacity: 1; }
+    .btn-card:hover .btn-inner::after { transform: scaleY(1); }
+
+    .btn-icon {
+      font-size: 26px;
+      line-height: 1;
+      flex-shrink: 0;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,229,255,0.08);
+      border-radius: 10px;
+      border: 1px solid rgba(0,229,255,0.1);
+    }
+
+    .btn-text {
+      flex: 1;
+    }
+
+    .btn-label {
+      font-family: 'Orbitron', monospace;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      color: white;
+      display: block;
+      margin-bottom: 3px;
+    }
+
+    .btn-desc {
+      font-size: 12px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.4);
+      letter-spacing: 0.5px;
+    }
+
+    .btn-arrow {
+      color: rgba(0,229,255,0.4);
+      font-size: 18px;
+      transition: 0.3s;
+      flex-shrink: 0;
+    }
+
+    .btn-card:hover .btn-arrow {
+      color: var(--cyan);
+      transform: translateX(4px);
+    }
+
+    /* FOOTER */
+    .footer {
+      width: 100%;
+      text-align: center;
+      padding: 20px;
+      color: rgba(255,255,255,0.18);
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      border-top: 1px solid rgba(0,229,255,0.07);
+      position: relative;
+      z-index: 2;
+    }
+
+    /* ANIMATIONS */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     /* MOBILE */
     @media (max-width: 600px) {
-
-      .header {
-        gap: 15px;
-        padding: 14px;
-      }
-
-      .logo {
-        width: 55px;
-        height: 55px;
-      }
-
-      h1 {
-        font-size: 24px;
-      }
-
-      .buttons {
-        margin-top: 50px;
-      }
-
-      .buttons button {
-        font-size: 16px;
-        padding: 16px;
-      }
+      .header { gap: 14px; padding: 14px 16px; }
+      .logo { width: 52px; height: 52px; }
+      h1 { font-size: 22px; letter-spacing: 2px; }
+      .title-eyebrow { font-size: 10px; letter-spacing: 4px; }
+      .main { padding: 40px 16px 60px; }
+      .hero-heading { font-size: 14px; margin-bottom: 36px; }
+      .btn-label { font-size: 13px; }
     }
   </style>
 </head>
-
 <body>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
 
-  <!-- HEADER -->
-  <div class="header">
+  <div class="page">
+    <!-- HEADER -->
+    <header class="header">
+      <div class="logo-wrap">
+        <img src="whc.png" class="logo" alt="WHC Logo">
+      </div>
 
-    <img src="whc.png" class="logo">
+      <div class="title-block">
+        <div class="title-eyebrow">National Cadet Corps</div>
+        <h1>WHC NCC 2027</h1>
+        <div class="title-sub">B / HCW · Battalion Command</div>
+      </div>
 
-    <h1>WHC NCC 2027</h1>
+      <div class="logo-wrap">
+        <img src="ncc.png" class="logo" alt="NCC Logo">
+      </div>
+    </header>
 
-    <img src="ncc.png" class="logo">
+    <!-- MAIN -->
+    <main class="main">
+      <div class="badge">
+        <span class="badge-dot"></span>
+        Active Portal
+      </div>
 
+      <p class="hero-heading">
+        Cadet <span>Command</span> Portal<br>
+        <span style="font-size:13px; font-weight:300; letter-spacing:3px; color:rgba(255,255,255,0.35)">Access your mission directives below</span>
+      </p>
+
+      <nav class="btn-list" aria-label="Main navigation">
+        <a href="https://whcncc2027-alt.github.io/whc-ncc-2027-learn/" target="_blank" class="btn-card">
+          <div class="btn-inner">
+            <div class="btn-icon">📘</div>
+            <div class="btn-text">
+              <span class="btn-label">Learn Cadet</span>
+              <span class="btn-desc">Training resources & study materials</span>
+            </div>
+            <span class="btn-arrow">›</span>
+          </div>
+        </a>
+
+        <a href="https://whcncc2027-alt.github.io/whc-ncc-2027-details/" target="_blank" class="btn-card">
+          <div class="btn-inner">
+            <div class="btn-icon">🎖️</div>
+            <div class="btn-text">
+              <span class="btn-label">Cadet Details</span>
+              <span class="btn-desc">Personnel info & profile records</span>
+            </div>
+            <span class="btn-arrow">›</span>
+          </div>
+        </a>
+
+        <a href="https://whcncc2027-alt.github.io/whc-ncc-2027-register/" target="_blank" class="btn-card">
+          <div class="btn-inner">
+            <div class="btn-icon">✅</div>
+            <div class="btn-text">
+              <span class="btn-label">Attendance Mark</span>
+              <span class="btn-desc">Register presence & session log</span>
+            </div>
+            <span class="btn-arrow">›</span>
+          </div>
+        </a>
+      </nav>
+
+      <div class="divider"></div>
+    </main>
+
+    <footer class="footer">
+      WHC NCC 2027 &nbsp;·&nbsp; B/HCW Battalion &nbsp;·&nbsp; All Rights Reserved
+    </footer>
   </div>
-
-  <!-- BUTTONS -->
-  <div class="buttons">
-
-    <a href="https://whcncc2027-alt.github.io/whc-ncc-2027-learn/" target="_blank">
-      <button>📘 Learn Cadet</button>
-    </a>
-
-    <a href="https://whcncc2027-alt.github.io/whc-ncc-2027-details/" target="_blank">
-      <button>🎖️ Cadet Details</button>
-    </a>
-
-    <a href="https://whcncc2027-alt.github.io/whc-ncc-2027-register/" target="_blank">
-      <button>✅ Attendance Mark</button>
-    </a>
-
-  </div>
-
 </body>
-
 </html>

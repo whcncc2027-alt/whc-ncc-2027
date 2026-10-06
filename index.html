@@ -1,499 +1,241 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WHC NCC 2027</title>
-  <link rel="icon" type="image/png" href="whc.png">
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
-  <style>
-    *, *::before, *::after {
-      margin: 0; padding: 0; box-sizing: border-box;
-    }
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>WHC NCC 2027 Portal</title><link rel="icon" href="whc.png">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#050e24;--navy2:#0b1a3e;--blue:#1a3caa;--accent:#00c9ff;--gold:#f5c842;--green:#22d47e;--red:#ff4d6d;--text:#e8eeff;--muted:#8898cc;--glass:rgba(255,255,255,.06);--gb:rgba(255,255,255,.12)}
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Exo 2',sans-serif}
+body{background:radial-gradient(circle at 10% 0,#0b1a3e,var(--navy) 60%);color:var(--text);min-height:100vh}
+[hidden]{display:none!important}h1,h2,h3,h4,th,.stat b,.brand{font-family:Rajdhani,sans-serif;letter-spacing:1px}h3{margin:18px 0 10px;color:var(--accent)}
+.glass,.panel,.gc,.stat,.box{background:var(--glass);border:1px solid var(--gb);border-radius:14px;backdrop-filter:blur(14px)}
+#login{min-height:100vh;display:grid;place-items:center;padding:16px}#lf{width:min(380px,100%);padding:28px;display:grid;gap:12px;text-align:center}
+#lf small{color:var(--accent);letter-spacing:4px;text-transform:uppercase}#lf h1{font-size:2rem}.logos{display:flex;justify-content:center;gap:14px}.logos img{height:64px}
+label{display:grid;gap:5px;text-align:left;font-size:.82rem;color:var(--muted)}input,select,textarea{width:100%;padding:10px 12px;background:rgba(255,255,255,.07);border:1px solid var(--gb);border-radius:10px;color:#fff;font-size:.9rem;outline:none}
+select option{background:var(--navy2)}input:focus,select:focus,textarea:focus{border-color:var(--accent)}
+.btn{padding:9px 14px;border-radius:10px;border:1px solid var(--gb);background:var(--glass);color:var(--text);cursor:pointer;font-weight:600;text-decoration:none;display:inline-block;min-height:38px}
+.btn:hover{border-color:var(--accent)}.btn.pri{background:linear-gradient(135deg,var(--blue),var(--accent));border:0;color:#fff}.btn.dg{color:var(--red)}
+#app{display:flex;min-height:100vh}#side{width:230px;padding:16px;background:rgba(5,14,36,.9);border-right:1px solid var(--gb);display:flex;flex-direction:column;gap:12px;position:sticky;top:0;height:100vh}
+.brand{font-size:1.3rem;font-weight:700;color:#fff}.brand small{display:block;font-size:.7rem;color:var(--accent);letter-spacing:3px}
+#nav{flex:1;display:grid;gap:4px;align-content:start}#nav button{text-align:left;padding:10px 12px;border:0;border-radius:10px;background:none;color:var(--muted);cursor:pointer;font-weight:600}
+#nav button.on{background:rgba(0,201,255,.12);color:var(--accent);box-shadow:inset 3px 0 var(--accent)}
+.content{flex:1;min-width:0}header{display:flex;align-items:center;gap:12px;padding:14px 22px;border-bottom:1px solid var(--gb);background:rgba(5,14,36,.7);position:sticky;top:0;z-index:5}header h2{flex:1}#burger{display:none}main{padding:22px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}.stat{padding:16px}.stat b{font-size:2.1rem;display:block}.stat span{color:var(--muted);font-size:.8rem}.stat.g b{color:var(--green)}.stat.r b{color:var(--red)}.stat.y b{color:var(--gold)}
+.bar,.row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;align-items:center}.bar input,.bar select{width:auto;flex:1;min-width:120px}
+.tw{overflow-x:auto}table{width:100%;border-collapse:collapse}th{padding:10px;color:var(--accent);text-align:left;font-size:.8rem;text-transform:uppercase;white-space:nowrap;border-bottom:1px solid var(--gb)}td{padding:9px 10px;border-bottom:1px solid rgba(255,255,255,.05);font-size:.88rem}
+.acts{display:flex;flex-wrap:wrap;gap:6px}.acts .btn{padding:5px 10px;min-height:30px;font-size:.78rem}.av{width:34px;height:34px;border-radius:50%;object-fit:cover;display:inline-grid;place-items:center;background:var(--blue);font-weight:700}.av.lg{width:84px;height:84px;font-size:2rem}
+.b{padding:2px 9px;border-radius:20px;font-size:.72rem;font-weight:700;text-transform:uppercase;background:var(--glass);border:1px solid var(--gb)}.b.present,.b.active,.b.cadet{color:var(--green)}.b.absent,.b.inactive{color:var(--red)}.b.late,.b.admin{color:var(--gold)}.b.viewer{color:var(--accent)}
+.pa{width:36px;height:34px;border-radius:8px;border:1px solid var(--gb);background:var(--glass);color:var(--muted);font-weight:700;cursor:pointer}.pa.present{background:var(--green);color:#042}.pa.absent{background:var(--red);color:#fff}.pa.late{background:var(--gold);color:#321}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}.gc{padding:16px;display:grid;gap:8px;align-content:start}.gc.urgent{border-color:var(--red)}.gc.important{border-color:var(--gold)}
+.panel{padding:18px;margin-bottom:16px;display:grid;gap:12px}.panel form{display:grid;gap:10px;max-width:420px}.chk{display:flex;gap:8px;align-items:center}.chk input{width:auto}
+.muted{color:var(--muted);font-size:.85rem}.empty{padding:30px;text-align:center;color:var(--muted)}.rec{list-style:none;display:grid;gap:6px}.rec li{padding:10px 14px;background:var(--glass);border-radius:10px}
+#modal{position:fixed;inset:0;background:rgba(0,0,0,.65);display:none;place-items:center;padding:14px;z-index:20}#modal.open{display:grid}.box{background:var(--navy2);padding:22px;width:min(560px,100%);max-height:92vh;overflow:auto;display:grid;gap:10px}
+.box form{display:grid;gap:10px}.prof{text-align:center}dl{display:grid;grid-template-columns:auto 1fr;gap:6px 14px}dt{color:var(--muted)}.txt{white-space:pre-wrap;font-family:inherit}iframe,video,.full{width:100%;aspect-ratio:16/9;border:0;border-radius:10px}
+#toasts{position:fixed;right:14px;bottom:14px;display:grid;gap:8px;z-index:30}.toast{padding:12px 16px;border-radius:10px;background:var(--navy2);border-left:4px solid var(--green);box-shadow:0 6px 20px #0008}.toast.err{border-color:var(--red)}
+@media(max-width:800px){#side{position:fixed;left:0;transform:translateX(-100%);transition:.25s;z-index:15}#side.open{transform:none}#burger{display:block}main{padding:14px}}
 
-    :root {
-      --cyan: #00e5ff;
-      --blue: #0077ff;
-      --deep: #020b1a;
-      --mid: #061425;
-      --panel: rgba(0, 180, 255, 0.06);
-      --border: rgba(0, 229, 255, 0.15);
-      --border-glow: rgba(0, 229, 255, 0.4);
-    }
+</style></head><body>
+<section id="login"><form id="lf" class="glass"><div class="logos"><img src="whc.png" alt="" onerror="this.remove()"><img src="ncc.png" alt="" onerror="this.remove()"></div>
+<small>National Cadet Corps</small><h1>WHC NCC 2027</h1><p id="lt" class="muted">Sign in to the cadet portal</p>
+<label id="nr" hidden>Full name<input id="ln"></label><label>Username<input id="lu" required autocomplete="username"></label><label>Password<input id="lp" type="password" required autocomplete="current-password"></label>
+<button class="btn pri" id="lb">Sign in</button></form></section>
+<div id="app" hidden><aside id="side"><div class="brand">WHC NCC 2027<small>B/HCW Battalion</small></div><nav id="nav"></nav><button class="btn dg" id="out">Log out</button></aside>
+<div class="content"><header><button id="burger" class="btn" aria-label="Menu">&#9776;</button><h2 id="title"></h2><span id="who"></span></header><main id="main"></main></div></div>
+<div id="modal" onclick="if(event.target===this)A.close()"></div><div id="toasts"></div>
+<script type="module">
+/* ===== firebase ===== */
+// Firestore only. Firebase Authentication is intentionally NOT used.
+import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {getFirestore,collection,doc,getDoc,getDocs,setDoc,query,where,limit,writeBatch} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+const firebaseConfig={apiKey:"AIzaSyAYupyPFhkPkEuuTdjH1bBW1ySwb1rl0vg",authDomain:"whc-ncc-2027.firebaseapp.com",projectId:"whc-ncc-2027",storageBucket:"whc-ncc-2027.firebasestorage.app",messagingSenderId:"164493305231",appId:"1:164493305231:web:c4923664c9c1b14dc917fa",measurementId:"G-TF639FMTYE"};
+const db=getFirestore(initializeApp(firebaseConfig));
 
-    html, body {
-      height: 100%;
-    }
+/* ===== utils ===== */
+const $=(s,r=document)=>r.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const today=()=>new Date().toLocaleDateString('en-CA');
+const hex=b=>[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('');
+const rand=()=>hex(crypto.getRandomValues(new Uint8Array(12)));
+const sha256=async s=>hex(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s)));
+const safeUrl=u=>/^https?:\/\//i.test(u||'')?u:'';
+function toast(msg,type='ok'){const t=document.createElement('div');t.className='toast '+type;t.textContent=msg;$('#toasts').append(t);setTimeout(()=>t.remove(),3800)}
+function download(name,text,mime='application/json'){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type:mime}));a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1e3)}
+function toCSV(rows){if(!rows.length)return'';const k=[...new Set(rows.flatMap(Object.keys))];const q=v=>{v=String(v??'');if(/^[=+\-@]/.test(v))v="'"+v;return'"'+v.replace(/"/g,'""')+'"'};return[k.join(','),...rows.map(r=>k.map(c=>q(r[c])).join(','))].join('\n')}
+function friendly(e){const c=e.code||'';if(c==='permission-denied')return'Firestore rules denied this request.';if(c==='unavailable'||!navigator.onLine)return'Network unavailable. Check your connection and try again.';return e.message||'Something went wrong.'}
+const shrink=f=>new Promise((ok,no)=>{const i=new Image();i.onload=()=>{const r=Math.min(1,200/Math.max(i.width,i.height)),c=document.createElement('canvas');c.width=i.width*r;c.height=i.height*r;c.getContext('2d').drawImage(i,0,0,c.width,c.height);ok(c.toDataURL('image/jpeg',.7))};i.onerror=()=>no(new Error('Invalid image'));i.src=URL.createObjectURL(f)});
 
-    body {
-      background: var(--deep);
-      color: white;
-      font-family: 'Exo 2', sans-serif;
-      min-height: 100vh;
-      overflow-x: hidden;
-      position: relative;
-    }
+const U={$,esc,today,rand,sha256,safeUrl,toast,download,toCSV,friendly,shrink};
 
-    /* ANIMATED GRID BACKGROUND */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(0,229,255,0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,229,255,0.04) 1px, transparent 1px);
-      background-size: 60px 60px;
-      animation: gridDrift 20s linear infinite;
-      z-index: 0;
-    }
+/* ===== auth ===== */
+// Custom login against Firestore users/{username}. DEMO-GRADE: see README "Security limitation".
+let session=null;
+const KEY='ncc_session';
+const set=(u,d,h)=>{session={username:u,role:d.role,cadetId:d.cadetId||null,name:d.name};sessionStorage.setItem(KEY,JSON.stringify({u,h}))};
+async function login(u,p){u=u.trim().toLowerCase();const s=await getDoc(doc(db,'users',u));const d=s.exists()&&s.data();const h=d&&await sha256(d.salt+p);
+  if(!d||d.passwordHash!==h||d.status!=='active')throw new Error('Invalid username or password (or account disabled).');set(u,d,h)}
+// Re-verified against Firestore on reload; role always comes from the stored user doc, never from sessionStorage.
+async function restore(){const t=JSON.parse(sessionStorage.getItem(KEY)||'null');if(!t)return;const s=await getDoc(doc(db,'users',t.u));const d=s.exists()&&s.data();if(d&&d.passwordHash===t.h&&d.status==='active')set(t.u,d,t.h);else sessionStorage.removeItem(KEY)}
+const logout=()=>{session=null;sessionStorage.removeItem(KEY)};
+function need(...roles){if(!session||!roles.includes(session.role))throw new Error('Permission denied: '+roles.join(' / ')+' only.')}
+async function newUser(username,password,role,cadetId,name){const salt=rand();return{username,salt,passwordHash:await sha256(salt+password),role,cadetId:cadetId||null,name,status:'active',createdAt:new Date().toISOString()}}
+const anyUser=async()=>!(await getDocs(query(collection(db,'users'),limit(1)))).empty;
+async function createFirstAdmin(u,p,name){if(await anyUser())throw new Error('Setup already completed.');if(p.length<6)throw new Error('Password must be at least 6 characters.');u=u.trim().toLowerCase();await setDoc(doc(db,'users',u),await newUser(u,p,'admin',null,name))}
 
-    @keyframes gridDrift {
-      0% { background-position: 0 0; }
-      100% { background-position: 60px 60px; }
-    }
+/* ===== data ===== */
+// Data layer. Every write re-checks the role; cadet reads are scoped to session.cadetId (never a URL/param).
+const list=async(c,...w)=>(await getDocs(w.length?query(collection(db,c),...w):collection(db,c))).docs.map(d=>({...d.data(),id:d.id}));
+const get=async(c,id)=>{const s=await getDoc(doc(db,c,id));return s.exists()?{...s.data(),id:s.id}:null};
+const put=(c,id,d)=>batch([['set',c,id,d]]);
+const del=(c,id)=>batch([['del',c,id]]);
+// ops: ['set'|'del', collection, id, data]; chunked at 400 (Firestore limit is 500)
+async function batch(ops,onChunk){need('admin');for(let i=0;i<ops.length;i+=400){const b=writeBatch(db);ops.slice(i,i+400).forEach(([t,c,id,d])=>t==='del'?b.delete(doc(db,c,id)):b.set(doc(db,c,id),d,{merge:true}));await b.commit();onChunk&&onChunk(Math.min(i+400,ops.length))}}
+async function load(){const D={},cad=session.role==='cadet';
+  if(cad){const c=await get('cadets',session.cadetId);D.cadets=c?[c]:[];D.attendance=await list('attendance',where('cadetId','==',session.cadetId))}
+  else{D.cadets=await list('cadets');D.attendance=await list('attendance')}
+  for(const c of['learningResources','notes','announcements'])D[c]=(await list(c)).filter(x=>!cad||x.visibility!=='staff');
+  D.settings=await list('settings');return D}
 
-    /* RADIAL GLOW ORBS */
-    .orb {
-      position: fixed;
-      border-radius: 50%;
-      filter: blur(80px);
-      opacity: 0.18;
-      pointer-events: none;
-      z-index: 0;
-    }
-    .orb-1 {
-      width: 600px; height: 600px;
-      background: radial-gradient(circle, #00e5ff, transparent 70%);
-      top: -200px; left: -100px;
-      animation: float1 12s ease-in-out infinite;
-    }
-    .orb-2 {
-      width: 500px; height: 500px;
-      background: radial-gradient(circle, #0055ff, transparent 70%);
-      bottom: -150px; right: -100px;
-      animation: float2 15s ease-in-out infinite;
-    }
-    .orb-3 {
-      width: 300px; height: 300px;
-      background: radial-gradient(circle, #00ffcc, transparent 70%);
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      animation: float3 18s ease-in-out infinite;
-    }
-    @keyframes float1 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(40px,30px)} }
-    @keyframes float2 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-30px,-40px)} }
-    @keyframes float3 { 0%,100%{transform:translate(-50%,-50%) scale(1)} 50%{transform:translate(-50%,-50%) scale(1.2)} }
+/* ===== import-export ===== */
+const COLS=['cadets','users','attendance','learningResources','notes','announcements','settings'];
+const EXP=['cadets','attendance','learningResources','notes','announcements'];
+const ST=['present','absent','late'],ROLES=['admin','viewer','cadet'];
+let pending=null,onDoneCb=()=>{};
+const rid=(c,r)=>c==='cadets'?r.cadetId:c==='users'?r.username:c==='attendance'?r.id||`${r.date}_${r.session||'morning'}_${r.cadetId}`:r.id||U.rand();
+const REQ={cadets:r=>r.cadetId&&r.name,users:r=>r.username&&ROLES.includes(r.role),attendance:r=>r.cadetId&&r.date&&ST.includes(r.status),learningResources:r=>r.title,notes:r=>r.title,announcements:r=>r.title,settings:r=>r.id};
+async function gather(cols,hashes){const o={version:1,exportedAt:new Date().toISOString()};
+  for(const c of cols)o[c]=(await list(c)).map(r=>{if(c==='users'&&!hashes){const{passwordHash,salt,...x}=r;return x}return r});return o}
+const dataHTML=()=>`<div class=panel><h3>Export</h3><div class=row><button class="btn pri" onclick="A.exp('all')">Export All Data</button>${EXP.map(c=>`<button class=btn onclick="A.exp('${c}')">Export ${c==='learningResources'?'Learning':c[0].toUpperCase()+c.slice(1)}</button>`).join('')}</div>
+<label class=chk><input type=checkbox id=hs checked> Include login hashes in Full Backup (needed to restore logins; treat the file as sensitive)</label>
+<div class=row><button class=btn onclick="A.exp('all','json')">Download Backup</button><button class=btn onclick="A.exp('all','json')">Export Everything</button><button class=btn onclick="document.getElementById('fi').click()">Restore Backup</button></div>
+<p class=muted>Per-collection exports are JSON (re-importable) or CSV. Passwords are never stored in plain text; only salted SHA-256 hashes exist.</p></div>
+<div class=panel><h3>Import Data</h3><input id=fi type=file accept=".json,application/json" onchange="A.pick(this.files[0])"><div id=imp></div></div>`;
+function initData(A,onDone){onDoneCb=onDone;
+ A.exp=async(kind,fmt)=>{try{need('admin');const csv=fmt==='csv';
+   if(kind==='all'){U.download(`whc-ncc-backup-${U.today()}.json`,JSON.stringify(await gather(COLS,U.$('#hs')?.checked??false),null,1))}
+   else if(csv){const r=(await list(kind)).map(x=>{const{photo,...y}=x;return y});U.download(`${kind}-${U.today()}.csv`,U.toCSV(r),'text/csv')}
+   else U.download(`${kind}-${U.today()}.json`,JSON.stringify(await gather([kind],false),null,1));
+   U.toast('Data exported')}catch(e){U.toast(U.friendly(e),'err')}};
+ A.pick=async f=>{const box=U.$('#imp');if(!f)return;try{need('admin');let o;try{o=JSON.parse(await f.text())}catch{throw new Error('Not a valid JSON file.')}
+   if(!o||o.version!==1)throw new Error('Unsupported or missing "version" (expected 1).');
+   const recs={},errs=[];for(const c of COLS)if(o[c]!==undefined){if(!Array.isArray(o[c])){errs.push(`${c} must be an array`);continue}
+     recs[c]=o[c].map((r,i)=>{if(!r||typeof r!=='object'||!REQ[c](r)){errs.push(`${c}[${i}] is missing required fields`);return null}const{id,...d}=r;return[c,rid(c,r),d]}).filter(Boolean)}
+   if(errs.length)throw new Error('Invalid file: '+errs.slice(0,3).join('; ')+(errs.length>3?` (+${errs.length-3} more)`:''));
+   if(!Object.keys(recs).length)throw new Error('File contains no recognised collections.');
+   pending=recs;box.innerHTML=`<table><tr><th>Collection</th><th>Records</th></tr>${Object.entries(recs).map(([c,r])=>`<tr><td>${c}</td><td>${r.length}</td></tr>`).join('')}</table>
+   <div class=row><label><input type=radio name=m value=add checked> Add new records only</label><label><input type=radio name=m value=update> Update existing + add new</label><label><input type=radio name=m value=replace> Replace existing data</label></div>
+   <p class=muted>Replace deletes every existing record in the listed collections first (your own account is kept). Type REPLACE to allow it.</p><input id=rep placeholder="Type REPLACE to confirm replace mode">
+   <div class=row><button class="btn pri" onclick="A.runImport()">Confirm &amp; Import</button></div><pre id=prog class=txt></pre>`}
+   catch(e){pending=null;box.innerHTML='';U.toast(U.friendly(e),'err')}U.$('#fi').value=''};
+ A.runImport=async()=>{try{need('admin');if(!pending)return;const m=document.querySelector('input[name=m]:checked').value;
+   if(m==='replace'&&U.$('#rep').value!=='REPLACE')throw new Error('Type REPLACE to confirm replace mode.');
+   if(m==='replace'&&!confirm('Replace mode will DELETE existing data in these collections. Continue?'))return;
+   const p=U.$('#prog'),lines=['Importing...'];const show=()=>p.textContent=lines.join('\n');
+   for(const[c,recs]of Object.entries(pending)){const idx=lines.push(`${c}: 0/${recs.length}`)-1;show();const have=new Set((await list(c)).map(x=>x.id));let ops=[];
+     if(m==='replace')for(const id of have)if(!(c==='users'&&id===session.username))ops.push(['del',c,id]);
+     const w=m==='add'?recs.filter(r=>!have.has(r[1])):recs;ops=ops.concat(w.map(r=>['set',r[0],r[1],r[2]]));
+     await batch(ops,n=>{lines[idx]=`${c}: ${Math.min(n,w.length)}/${w.length}`;show()});lines[idx]=`${c}: ${w.length}/${w.length}`;show()}
+   lines.push('Import completed successfully.');show();U.toast('Import completed successfully');pending=null;await onDoneCb()}
+   catch(e){U.toast('Import failed: '+U.friendly(e),'err')}};
+}
 
-    /* SCANLINE OVERLAY */
-    body::after {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background: repeating-linear-gradient(
-        0deg,
-        transparent,
-        transparent 2px,
-        rgba(0,0,0,0.05) 2px,
-        rgba(0,0,0,0.05) 4px
-      );
-      pointer-events: none;
-      z-index: 1;
-    }
+/* ===== app ===== */
+const RANKS=['CDT','L/CPL','CPL','SGT','CSM'],WINGS=['Army','Navy','Air Force','Police'],YEARS=['1st Year','2nd Year','3rd Year'];
+const CATS=['NCC Knowledge','Drill','Physical Training','First Aid','Map Reading','Leadership','Camps','Rules & Regulations','General Knowledge','Other'];
+const TYPES=['youtube','video','pdf','document','image','note','link'],VIS=['all','staff'];
+const NAV={admin:[['dashboard','Dashboard'],['cadets','Cadets'],['attendance','Attendance'],['learningResources','Learning'],['notes','Notes'],['announcements','Announcements'],['data','Data Management'],['settings','Settings']],
+ cadet:[['dashboard','My Dashboard'],['profile','My Profile'],['attendance','My Attendance'],['learningResources','Learning'],['notes','My Notes'],['announcements','Announcements']]};
+NAV.viewer=NAV.admin.slice(0,6);
+const A=window.A={},V={},L={};let D={},view='dashboard';
+const F={cadets:{},attendance:{date:U.today(),session:'morning',mode:'daily',month:U.today().slice(0,7),draft:{}},learningResources:{},notes:{},announcements:{}};
+const isAdmin=()=>session.role==='admin';
+const run=f=>async(...a)=>{try{await f(...a)}catch(e){U.toast(U.friendly(e),'err')}};
+const refresh=async()=>{D=await load();render()};
+const bt=(l,x,id='',c='')=>`<button class="btn ${c}" data-id="${esc(id)}" onclick="${x}">${l}</button>`;
+const card=(l,v,c='')=>`<div class="stat ${c}"><b>${v}</b><span>${l}</span></div>`;
+const badge=s=>`<span class="b ${esc(s)}">${esc(s)}</span>`;
+const fsel=(v,k,ph,o)=>`<select onchange="A.f('${v}','${k}',this.value)"><option value="">${ph}</option>${o.map(x=>`<option ${x===F[v][k]?'selected':''}>${esc(x)}</option>`).join('')}</select>`;
+const finp=(v,k,ph)=>`<input placeholder="${ph}" value="${esc(F[v][k])}" oninput="A.f('${v}','${k}',this.value)">`;
+const mt=(o,q)=>!q||Object.values(o).filter(v=>typeof v==='string'&&v.length<2000).join(' ').toLowerCase().includes(q.toLowerCase());
+const stat=rs=>{const c={present:0,absent:0,late:0};rs.forEach(r=>c[r.status]++);return{...c,t:rs.length,pct:rs.length?Math.round((c.present+c.late)/rs.length*100):0}};
+const av=(c,z='')=>c.photo&&c.photo.startsWith('data:image/')?`<img class="av ${z}" src="${c.photo}">`:`<span class="av ${z}">${esc((c.name||'?')[0])}</span>`;
+const cf=(f,all)=>D.cadets.filter(c=>(all||c.status!=='inactive')&&mt(c,f.q)&&(!f.rank||c.rank===f.rank)&&(!f.wing||c.wing===f.wing)&&(!f.year||c.year===f.year)&&(!f.group||(c.group||'').toLowerCase().includes(f.group.toLowerCase()))).sort((a,b)=>a.cadetId>b.cadetId?1:-1);
+function modal(h){$('#modal').innerHTML=`<div class=box>${h}</div>`;$('#modal').classList.add('open')}
+A.close=()=>$('#modal').classList.remove('open');
+function form(title,fields,v,save){modal(`<h3>${title}</h3><form id=fm>${fields.map(([k,l,t,o])=>`<label>${l}${t==='select'?`<select name=${k}>${o.map(x=>`<option ${x===v[k]?'selected':''}>${esc(x)}</option>`).join('')}</select>`:t==='textarea'?`<textarea name=${k} rows=5>${esc(v[k])}</textarea>`:`<input name=${k} type=${t||'text'} ${t==='file'?'accept=image/*':`value="${esc(v[k])}"`} ${t==='password'?'autocomplete=new-password':''}>`}</label>`).join('')}<div class=row><button type=button class=btn onclick=A.close()>Cancel</button><button class="btn pri">Save</button></div></form>`);
+  $('#fm').onsubmit=async e=>{e.preventDefault();try{await save(Object.fromEntries(new FormData(e.target)));A.close()}catch(x){U.toast(U.friendly(x),'err')}}}
+/* ---------- Dashboard ---------- */
+const recent=()=>{const r=['announcements','notes','learningResources'].flatMap(k=>D[k].map(x=>({...x,k}))).sort((a,b)=>(b.createdAt||'')>(a.createdAt||'')?1:-1).slice(0,6);
+  return'<h3>Recent activity</h3>'+(r.length?`<ul class=rec>${r.map(x=>`<li>${esc(x.title)} <span class=muted>${esc(x.k)} · ${esc((x.createdAt||'').slice(0,10))}</span></li>`).join('')}</ul>`:'<p class=empty>No activity yet.</p>')};
+V.dashboard=()=>{if(session.role==='cadet'){const s=stat(D.attendance);return`<div class=stats>${card('Attendance',s.pct+'%')}${card('Present',s.present,'g')}${card('Absent',s.absent,'r')}${card('Late',s.late,'y')}</div>`+recent()}
+  const t=stat(D.attendance.filter(a=>a.date===U.today()&&a.session==='morning')),all=stat(D.attendance);
+  return`<div class=stats>${card('Total cadets',D.cadets.filter(c=>c.status!=='inactive').length)}${card('Present today',t.present,'g')}${card('Absent today',t.absent,'r')}${card('Late today',t.late,'y')}${card('Attendance %',all.pct+'%')}${card('Learning resources',D.learningResources.length)}${card('Notes',D.notes.length)}</div>`+recent()};
+/* ---------- Cadets ---------- */
+const prof=c=>`<div class=prof>${av(c,'lg')}<h3>${esc(c.name)}</h3><p class=muted>${esc(c.cadetId)} · ${esc(c.rank)} · ${esc(c.wing)}</p></div><dl>${[['Group','group'],['Year','year'],['Date of birth','dob'],['Phone','phone'],['Email','email'],['Address','address'],['Guardian / emergency','guardian'],['Join date','joinDate'],['Notes','notes']].map(([l,k])=>`<dt>${l}</dt><dd>${esc(c[k])||'-'}</dd>`).join('')}</dl>`;
+const hist=id=>{const r=D.attendance.filter(a=>a.cadetId===id).sort((a,b)=>a.date<b.date?1:-1);return r.length?`<div class=tw><table><tr><th>Date</th><th>Session</th><th>Status</th></tr>${r.map(a=>`<tr><td>${esc(a.date)}</td><td>${esc(a.session)}</td><td>${badge(a.status)}</td></tr>`).join('')}</table></div>`:'<p class=empty>No attendance records.</p>'};
+V.cadets=()=>`<div class=bar>${finp('cadets','q','Search cadets')}${fsel('cadets','rank','Rank',RANKS)}${fsel('cadets','wing','Wing',WINGS)}${fsel('cadets','year','Year',YEARS)}${finp('cadets','group','Group')}${isAdmin()?'<button class="btn pri" onclick="A.newCadet()">+ Add Cadet</button>':''}</div><div id=list class=tw>${L.cadets()}</div>`;
+L.cadets=()=>{const r=cf(F.cadets,true);return r.length?`<table><tr><th></th><th>ID</th><th>Name</th><th>Rank</th><th>Wing</th><th>Group</th><th>Year</th><th>Status</th><th></th></tr>${r.map(c=>`<tr><td>${av(c)}</td><td>${esc(c.cadetId)}</td><td>${esc(c.name)}</td><td>${esc(c.rank)}</td><td>${esc(c.wing)}</td><td>${esc(c.group)}</td><td>${esc(c.year)}</td><td>${badge(c.status||'active')}</td><td class=acts>${bt('View','A.view(this.dataset.id)',c.id)}${isAdmin()?bt('Edit','A.editCadet(this.dataset.id)',c.id)+bt(c.status==='inactive'?'Activate':'Deactivate','A.toggle(this.dataset.id)',c.id)+bt('Reset PW','A.reset(this.dataset.id)',c.id)+bt('Delete','A.delCadet(this.dataset.id)',c.id,'dg'):''}</td></tr>`).join('')}</table>`:'<p class=empty>No cadets found. '+(isAdmin()?'Add the first cadet to get started.':'')+'</p>'};
+V.profile=()=>D.cadets[0]?prof(D.cadets[0]):'<p class=empty>Profile not found.</p>';
+A.view=id=>{const c=D.cadets.find(x=>x.id===id);if(!c)return;const s=stat(D.attendance.filter(a=>a.cadetId===c.cadetId));modal(prof(c)+`<p>Attendance: <b>${s.pct}%</b> (P ${s.present} · A ${s.absent} · L ${s.late})</p>`+hist(c.cadetId)+'<button class=btn onclick=A.close()>Close</button>')};
+function cform(c){const nw=!c.cadetId;const fs=[...(nw?[['cadetId','Cadet ID *']]:[]),['name','Full name *'],['rank','Rank','select',RANKS],['wing','Wing','select',WINGS],['group','Group'],['year','Year','select',YEARS],['dob','Date of birth','date'],['phone','Phone'],['email','Email','email'],['address','Address'],['guardian','Guardian / emergency contact'],['joinDate','Join date','date'],...(nw?[['username','Username *'],['password','Password * (min 6)','password']]:[]),['photo','Profile photo','file'],['notes','Notes','textarea']];
+  form(nw?'Add Cadet':'Edit Cadet',fs,c,async o=>{need('admin');if(!o.name?.trim())throw new Error('Name is required.');let id=c.cadetId,u,un;
+    if(nw){id=(o.cadetId||'').trim().toUpperCase();un=(o.username||'').trim().toLowerCase();if(!/^[A-Z0-9_-]+$/.test(id))throw new Error('Cadet ID: letters, numbers, - and _ only.');if(!/^[a-z0-9._-]{3,}$/.test(un))throw new Error('Username: 3+ chars (a-z, 0-9, . _ -).');
+      if((o.password||'').length<6)throw new Error('Password must be at least 6 characters.');if(await get('cadets',id))throw new Error('Duplicate cadet ID.');if(await get('users',un))throw new Error('Duplicate username.');u=await newUser(un,o.password,'cadet',id,o.name.trim())}
+    const{cadetId,username,password,photo,...rest}=o;const d={...rest,cadetId:id,status:c.status||'active',createdAt:c.createdAt||new Date().toISOString()};if(nw)d.username=un;if(photo&&photo.size)d.photo=await U.shrink(photo);
+    await batch([['set','cadets',id,d],...(nw?[['set','users',un,u]]:[])]);U.toast(nw?'Cadet added':'Cadet updated');await refresh()})}
+A.newCadet=()=>cform({rank:'CDT',wing:'Army'});A.editCadet=id=>cform(D.cadets.find(c=>c.id===id));
+A.toggle=run(async id=>{need('admin');const c=D.cadets.find(x=>x.id===id),s=c.status==='inactive'?'active':'inactive';await batch([['set','cadets',id,{status:s}],...(c.username?[['set','users',c.username,{status:s}]]:[])]);U.toast('Cadet '+s);await refresh()});
+A.reset=run(async id=>{need('admin');const c=D.cadets.find(x=>x.id===id),p=prompt('New password for '+c.name+' (min 6 characters):');if(p===null)return;if(p.length<6)throw new Error('Password must be at least 6 characters.');const u=await newUser(c.username,p,'cadet',c.cadetId,c.name);await batch([['set','users',c.username,{salt:u.salt,passwordHash:u.passwordHash}]]);U.toast('Password reset')});
+A.delCadet=run(async id=>{need('admin');const c=D.cadets.find(x=>x.id===id);if(!confirm(`Permanently delete ${c.name}, their login and attendance records?`))return;
+  await batch([['del','cadets',id],...(c.username?[['del','users',c.username]]:[]),...D.attendance.filter(a=>a.cadetId===c.cadetId).map(a=>['del','attendance',a.id])]);U.toast('Cadet deleted');await refresh()});
+/* ---------- Attendance ---------- */
+const mrow=(l,s)=>`<tr><td>${l}</td><td>${s.present}</td><td>${s.absent}</td><td>${s.late}</td><td>${s.pct}%</td></tr>`,mh='<tr><th>Cadet</th><th>P</th><th>A</th><th>L</th><th>%</th></tr>';
+V.attendance=()=>{if(session.role==='cadet'){const s=stat(D.attendance),m={};D.attendance.forEach(a=>(m[a.date.slice(0,7)]??=[]).push(a));
+  return`<div class=stats>${card('Attendance',s.pct+'%')}${card('Present',s.present,'g')}${card('Absent',s.absent,'r')}${card('Late',s.late,'y')}</div><h3>Monthly</h3><div class=tw><table>${mh.replace('Cadet','Month')}${Object.keys(m).sort().reverse().map(k=>mrow(k,stat(m[k]))).join('')}</table></div><h3>History</h3>`+hist(session.cadetId)}
+  const f=F.attendance,d=f.mode==='daily';
+  return`<div class=bar>${bt('Daily',"A.att('mode','daily')",'',d?'pri':'')}${bt('Monthly',"A.att('mode','monthly')",'',d?'':'pri')}${d?`<input type=date value="${f.date}" onchange="A.att('date',this.value)"><select onchange="A.att('session',this.value)"><option value=morning ${f.session==='morning'?'selected':''}>morning</option><option value=afterschool ${f.session==='afterschool'?'selected':''}>afterschool</option></select>`:`<input type=month value="${f.month}" onchange="A.att('month',this.value)">`}</div>
+  <div class=bar>${finp('attendance','q','Search cadets')}${fsel('attendance','rank','Rank',RANKS)}${fsel('attendance','wing','Wing',WINGS)}${fsel('attendance','year','Year',YEARS)}${d?fsel('attendance','status','Status',['present','absent','late','unmarked']):''}${d&&isAdmin()?'<button class=btn onclick="A.allP()">Mark all present</button><button class="btn pri" onclick="A.saveAtt()">Save attendance</button>':''}</div><div id=list class=tw>${L.attendance()}</div>`};
+L.attendance=()=>{const f=F.attendance,cs=cf(f);if(!cs.length)return'<p class=empty>No cadets to show.</p>';
+  if(f.mode==='monthly')return`<table>${mh}${cs.map(c=>mrow(`${esc(c.name)} <small class=muted>${esc(c.cadetId)}</small> ${bt('History','A.view(this.dataset.id)',c.id)}`,stat(D.attendance.filter(a=>a.cadetId===c.cadetId&&a.date.startsWith(f.month)))).replace('<td>','<td class=nm>')).join('')}</table>`;
+  const rec=Object.fromEntries(D.attendance.filter(a=>a.date===f.date&&a.session===f.session).map(a=>[a.cadetId,a.status])),cur=c=>f.draft[c]||rec[c];
+  const r=cs.filter(c=>!f.status||(f.status==='unmarked'?!cur(c.cadetId):cur(c.cadetId)===f.status));
+  return r.length?`<table><tr><th>ID</th><th>Name</th><th>Status</th></tr>${r.map(c=>`<tr><td>${esc(c.cadetId)}</td><td>${esc(c.name)}</td><td class=acts>${isAdmin()?['present','absent','late'].map(s=>`<button class="pa ${cur(c.cadetId)===s?s:''}" data-id="${esc(c.cadetId)}" data-s="${s}" onclick="A.mark(this.dataset.id,this.dataset.s)">${s[0].toUpperCase()}</button>`).join(''):badge(cur(c.cadetId)||'-')}${f.draft[c.cadetId]?' <small class=muted>unsaved</small>':''}</td></tr>`).join('')}</table>`:'<p class=empty>No matching cadets.</p>'};
+A.f=(v,k,x)=>{F[v][k]=x;$('#list').innerHTML=L[v]()};
+A.att=(k,x)=>{if(!x)return;F.attendance[k]=x;if(k==='date'||k==='session')F.attendance.draft={};render()};
+A.mark=(id,s)=>{F.attendance.draft[id]=s;$('#list').innerHTML=L.attendance()};
+A.allP=()=>{cf(F.attendance).forEach(c=>F.attendance.draft[c.cadetId]='present');$('#list').innerHTML=L.attendance()};
+A.saveAtt=run(async()=>{need('admin');const f=F.attendance,ids=Object.keys(f.draft);if(!ids.length)throw new Error('Nothing to save.');const at=new Date().toISOString();
+  await batch(ids.map(c=>['set','attendance',`${f.date}_${f.session}_${c}`,{cadetId:c,date:f.date,session:f.session,status:f.draft[c],markedBy:session.username,markedAt:at}]));f.draft={};U.toast('Attendance saved');await refresh()});
+/* ---------- Learning / Notes / Announcements (generic CRUD) ---------- */
+const R={learningResources:{t:'Learning Resource',cat:1,f:[['title','Title *'],['type','Type','select',TYPES],['category','Category','select',CATS],['url','URL (https://...)','url'],['description','Description','textarea'],['visibility','Visibility','select',VIS]]},
+ notes:{t:'Note',cat:1,f:[['title','Title *'],['category','Category','select',CATS],['content','Content','textarea'],['visibility','Visibility','select',VIS]]},
+ announcements:{t:'Announcement',f:[['title','Title *'],['message','Message','textarea'],['priority','Priority','select',['normal','important','urgent']],['link','Link (optional)','url'],['attachment','Attachment URL (optional)','url']]}};
+for(const k in R){V[k]=()=>`<div class=bar>${finp(k,'q','Search')}${R[k].cat?fsel(k,'category','Category',CATS):''}${k==='learningResources'?fsel(k,'type','Type',TYPES):''}${isAdmin()?bt('+ Add',`A.edit('${k}','')`,'','pri'):''}</div><div id=list class=grid>${L[k]()}</div>`;
+  L[k]=()=>{const f=F[k],r=D[k].filter(x=>mt(x,f.q)&&(!f.category||x.category===f.category)&&(!f.type||x.type===f.type)).sort((a,b)=>(b.createdAt||'')>(a.createdAt||'')?1:-1);
+    return r.length?r.map(x=>`<div class="gc ${esc(x.priority)}"><h4>${esc(x.title)}</h4><p class=muted>${[x.category,x.type,x.priority,(x.createdAt||'').slice(0,10)].filter(Boolean).map(esc).join(' · ')}</p><p>${esc((x.description||x.message||x.content||'').slice(0,140))}</p><div class=acts>${bt('Open',`A.open('${k}',this.dataset.id)`,x.id)}${isAdmin()?bt('Edit',`A.edit('${k}',this.dataset.id)`,x.id)+bt('Delete',`A.rm('${k}',this.dataset.id)`,x.id,'dg'):''}</div></div>`).join(''):'<p class=empty>Nothing here yet.</p>'}}
+A.open=(k,id)=>{const x=D[k].find(y=>y.id===id);if(!x)return;const u=U.safeUrl(x.url||x.link);let b='';
+  if(k==='learningResources'&&u){const y=u.match(/(?:youtu\.be\/|v=|embed\/)([\w-]{11})/);if(x.type==='youtube'&&y)b=`<iframe src="https://www.youtube.com/embed/${y[1]}" allowfullscreen></iframe>`;else if(x.type==='video')b=`<video controls src="${esc(u)}"></video>`;else if(x.type==='image')b=`<img class=full src="${esc(u)}">`}
+  const at=U.safeUrl(x.attachment);modal(`<h3>${esc(x.title)}</h3>${b}<pre class=txt>${esc(x.content||x.message||x.description)}</pre>${u&&!b?`<p><a class=btn href="${esc(u)}" target=_blank rel=noopener>Open link</a></p>`:''}${at?`<p><a class=btn href="${esc(at)}" target=_blank rel=noopener>Attachment</a></p>`:''}<button class=btn onclick=A.close()>Close</button>`)};
+A.edit=(k,id)=>{need('admin');const x=id?D[k].find(y=>y.id===id):{};form((id?'Edit ':'Add ')+R[k].t,R[k].f,x,async o=>{need('admin');if(!o.title?.trim())throw new Error('Title is required.');
+  for(const f of['url','link','attachment'])if(o[f]&&!U.safeUrl(o[f]))throw new Error('Links must start with http:// or https://');
+  const now=new Date().toISOString();await put(k,id||U.rand(),{...o,createdAt:x.createdAt||now,updatedAt:now,createdBy:x.createdBy||session.username});U.toast(R[k].t+' saved');await refresh()})};
+A.rm=run(async(k,id)=>{need('admin');if(!confirm('Delete this item?'))return;await del(k,id);U.toast('Deleted');await refresh()});
+/* ---------- Data Management / Settings ---------- */
+V.data=dataHTML;initData(A,refresh);
+V.settings=()=>{const s=D.settings.find(x=>x.id==='general')||{};return`<div class=panel><h3>General</h3><form onsubmit="A.saveSet(event);return false"><label>Unit name<input name=org value="${esc(s.org||'B/Hindu College NCC')}"></label><label>Attendance target %<input name=target type=number value="${esc(s.target||75)}"></label><button class="btn pri">Save</button></form></div>
+<div class=panel><h3>Create admin / viewer account</h3><form onsubmit="A.staff(event);return false"><label>Name<input name=name required></label><label>Username<input name=username required></label><label>Password (min 6)<input name=password type=password required autocomplete=new-password></label><label>Role<select name=role><option>viewer</option><option>admin</option></select></label><button class="btn pri">Create</button></form></div>`};
+A.saveSet=e=>{e.preventDefault();const o=Object.fromEntries(new FormData(e.target));run(async()=>{need('admin');await put('settings','general',o);U.toast('Settings saved');await refresh()})()};
+A.staff=e=>{e.preventDefault();const f=e.target,o=Object.fromEntries(new FormData(f));run(async()=>{need('admin');const un=o.username.trim().toLowerCase();if(!/^[a-z0-9._-]{3,}$/.test(un))throw new Error('Username: 3+ chars (a-z, 0-9, . _ -).');if(o.password.length<6)throw new Error('Password must be at least 6 characters.');if(await get('users',un))throw new Error('Duplicate username.');
+  await put('users',un,await newUser(un,o.password,o.role,null,o.name.trim()));f.reset();U.toast('Account created')})()};
+/* ---------- Shell ---------- */
+function render(){if(!NAV[session.role].some(n=>n[0]===view))view='dashboard';document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.v===view));
+  $('#title').textContent=NAV[session.role].find(n=>n[0]===view)[1];try{$('#main').innerHTML=V[view]()}catch(e){$('#main').innerHTML='<p class=empty>Failed to render.</p>';console.error(e)}}
+A.go=v=>{if(!NAV[session.role].some(n=>n[0]===v)){U.toast('Permission denied','err');return}view=v;$('#side').classList.remove('open');render()};
+async function enter(){$('#login').hidden=true;$('#app').hidden=false;$('#who').innerHTML=`${esc(session.name||session.username)} ${badge(session.role)}`;
+  $('#nav').innerHTML=NAV[session.role].map(([k,l])=>`<button data-v="${k}" onclick="A.go(this.dataset.v)">${l}</button>`).join('');view='dashboard';
+  try{D=await load()}catch(e){D={cadets:[],attendance:[],learningResources:[],notes:[],announcements:[],settings:[]};U.toast(U.friendly(e),'err')}render()}
+let setup=false;
+$('#lf').onsubmit=async e=>{e.preventDefault();const u=$('#lu').value,p=$('#lp').value;try{if(setup){await createFirstAdmin(u,p,$('#ln').value||u);setup=false}await login(u,p);U.toast('Login successful');await enter()}catch(x){U.toast(U.friendly(x),'err')}};
+$('#out').onclick=()=>{logout();location.reload()};$('#burger').onclick=()=>$('#side').classList.toggle('open');
+addEventListener('offline',()=>U.toast('You are offline. Changes cannot be saved.','err'));addEventListener('online',()=>U.toast('Back online'));
+(async()=>{try{await restore()}catch{}if(session)return enter();try{if(!await anyUser()){setup=true;$('#lt').textContent='First-run setup: create the admin account';$('#nr').hidden=false;$('#lb').textContent='Create admin & sign in'}}catch(e){U.toast(U.friendly(e),'err')}})();
 
-    /* LAYOUT */
-    .page {
-      position: relative;
-      z-index: 2;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    /* HEADER */
-    .header {
-      width: 100%;
-      padding: 20px 32px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 28px;
-      background: rgba(2, 11, 26, 0.85);
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--border);
-      position: relative;
-    }
-
-    .header::after {
-      content: '';
-      position: absolute;
-      bottom: -1px;
-      left: 10%;
-      right: 10%;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--cyan), transparent);
-    }
-
-    .logo-wrap {
-      position: relative;
-      display: inline-flex;
-    }
-
-    .logo {
-      width: 72px; height: 72px;
-      object-fit: contain;
-      position: relative;
-      z-index: 1;
-      filter: drop-shadow(0 0 8px rgba(0,229,255,0.5));
-      transition: 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-    }
-
-    .logo:hover {
-      transform: scale(1.15) rotate(5deg);
-      filter: drop-shadow(0 0 20px var(--cyan));
-    }
-
-    /* TITLE BLOCK */
-    .title-block {
-      text-align: center;
-      flex: 1;
-    }
-
-    .title-eyebrow {
-      font-family: 'Exo 2', sans-serif;
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 6px;
-      text-transform: uppercase;
-      color: var(--cyan);
-      opacity: 0.7;
-      margin-bottom: 6px;
-    }
-
-    h1 {
-      font-family: 'Orbitron', monospace;
-      font-size: 36px;
-      font-weight: 800;
-      letter-spacing: 4px;
-      background: linear-gradient(135deg, #fff 30%, var(--cyan) 70%, #0077ff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      line-height: 1.1;
-    }
-
-    .title-sub {
-      font-size: 13px;
-      font-weight: 300;
-      letter-spacing: 3px;
-      color: rgba(255,255,255,0.45);
-      margin-top: 5px;
-      text-transform: uppercase;
-    }
-
-    /* DIVIDER */
-    .divider {
-      width: 120px;
-      height: 1px;
-      margin: 30px auto 0;
-      background: linear-gradient(90deg, transparent, var(--cyan), transparent);
-      position: relative;
-    }
-
-    .divider::before {
-      content: '';
-      position: absolute;
-      top: -3px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: var(--cyan);
-      box-shadow: 0 0 10px var(--cyan);
-    }
-
-    /* MAIN CONTENT */
-    .main {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 60px 24px 80px;
-      width: 100%;
-      max-width: 520px;
-      gap: 0;
-    }
-
-    /* BADGE */
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 7px 18px;
-      border: 1px solid var(--border);
-      border-radius: 100px;
-      font-size: 12px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--cyan);
-      background: rgba(0,229,255,0.05);
-      margin-bottom: 32px;
-      animation: fadeIn 0.6s ease both;
-    }
-
-    .badge-dot {
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: var(--cyan);
-      box-shadow: 0 0 8px var(--cyan);
-      animation: pulse 2s ease-in-out infinite;
-    }
-
-    @keyframes pulse {
-      0%,100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.5; transform: scale(0.7); }
-    }
-
-    /* HERO HEADING */
-    .hero-heading {
-      font-family: 'Orbitron', monospace;
-      font-size: 18px;
-      font-weight: 600;
-      text-align: center;
-      letter-spacing: 2px;
-      color: rgba(255,255,255,0.85);
-      margin-bottom: 48px;
-      animation: fadeIn 0.6s 0.1s ease both;
-      line-height: 1.6;
-    }
-
-    .hero-heading span {
-      color: var(--cyan);
-    }
-
-    /* BUTTON CARDS */
-    .btn-list {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    .btn-card {
-      position: relative;
-      text-decoration: none;
-      display: block;
-      animation: slideUp 0.5s ease both;
-    }
-
-    .btn-card:nth-child(1) { animation-delay: 0.15s; }
-    .btn-card:nth-child(2) { animation-delay: 0.25s; }
-    .btn-card:nth-child(3) { animation-delay: 0.35s; }
-
-    .btn-inner {
-      position: relative;
-      display: flex;
-      align-items: center;
-      gap: 18px;
-      padding: 20px 24px;
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      overflow: hidden;
-      transition: 0.35s cubic-bezier(0.23, 1, 0.32, 1);
-      cursor: pointer;
-    }
-
-    .btn-inner::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(0,229,255,0.08), transparent 60%);
-      opacity: 0;
-      transition: 0.35s;
-    }
-
-    .btn-inner::after {
-      content: '';
-      position: absolute;
-      left: 0; top: 0; bottom: 0;
-      width: 3px;
-      background: linear-gradient(180deg, var(--cyan), var(--blue));
-      border-radius: 3px 0 0 3px;
-      transform: scaleY(0);
-      transition: 0.35s cubic-bezier(0.23, 1, 0.32, 1);
-    }
-
-    .btn-card:hover .btn-inner {
-      transform: translateX(6px);
-      border-color: var(--border-glow);
-      box-shadow: 0 0 30px rgba(0,229,255,0.12), inset 0 0 20px rgba(0,229,255,0.03);
-    }
-
-    .btn-card:hover .btn-inner::before { opacity: 1; }
-    .btn-card:hover .btn-inner::after { transform: scaleY(1); }
-
-    .btn-icon {
-      font-size: 26px;
-      line-height: 1;
-      flex-shrink: 0;
-      width: 44px;
-      height: 44px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(0,229,255,0.08);
-      border-radius: 10px;
-      border: 1px solid rgba(0,229,255,0.1);
-    }
-
-    .btn-text {
-      flex: 1;
-    }
-
-    .btn-label {
-      font-family: 'Orbitron', monospace;
-      font-size: 14px;
-      font-weight: 600;
-      letter-spacing: 1px;
-      color: white;
-      display: block;
-      margin-bottom: 3px;
-    }
-
-    .btn-desc {
-      font-size: 12px;
-      font-weight: 300;
-      color: rgba(255,255,255,0.4);
-      letter-spacing: 0.5px;
-    }
-
-    .btn-arrow {
-      color: rgba(0,229,255,0.4);
-      font-size: 18px;
-      transition: 0.3s;
-      flex-shrink: 0;
-    }
-
-    .btn-card:hover .btn-arrow {
-      color: var(--cyan);
-      transform: translateX(4px);
-    }
-
-    /* FOOTER */
-    .footer {
-      width: 100%;
-      text-align: center;
-      padding: 20px;
-      color: rgba(255,255,255,0.18);
-      font-size: 11px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      border-top: 1px solid rgba(0,229,255,0.07);
-      position: relative;
-      z-index: 2;
-    }
-
-    /* ANIMATIONS */
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-8px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes slideUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* MOBILE */
-    @media (max-width: 600px) {
-      .header { gap: 14px; padding: 14px 16px; }
-      .logo { width: 52px; height: 52px; }
-      h1 { font-size: 22px; letter-spacing: 2px; }
-      .title-eyebrow { font-size: 10px; letter-spacing: 4px; }
-      .main { padding: 40px 16px 60px; }
-      .hero-heading { font-size: 14px; margin-bottom: 36px; }
-      .btn-label { font-size: 13px; }
-    }
-  </style>
-</head>
-<body>
-  <div class="orb orb-1"></div>
-  <div class="orb orb-2"></div>
-  <div class="orb orb-3"></div>
-
-  <div class="page">
-    <!-- HEADER -->
-    <header class="header">
-      <div class="logo-wrap">
-        <img src="whc.png" class="logo" alt="WHC Logo">
-      </div>
-
-      <div class="title-block">
-        <div class="title-eyebrow">National Cadet Corps</div>
-        <h1>WHC NCC 2027</h1>
-        <div class="title-sub">B / HCW · Battalion Command</div>
-      </div>
-
-      <div class="logo-wrap">
-        <img src="ncc.png" class="logo" alt="NCC Logo">
-      </div>
-    </header>
-
-    <!-- MAIN -->
-    <main class="main">
-      <div class="badge">
-        <span class="badge-dot"></span>
-        Active Portal
-      </div>
-
-      <p class="hero-heading">
-        Cadet <span>Command</span> Portal<br>
-        <span style="font-size:13px; font-weight:300; letter-spacing:3px; color:rgba(255,255,255,0.35)">Access your mission directives below</span>
-      </p>
-
-      <nav class="btn-list" aria-label="Main navigation">
-        <a href="https://whcncc2027-alt.github.io/whc-ncc-2027-learn/" target="_blank" class="btn-card">
-          <div class="btn-inner">
-            <div class="btn-icon">📘</div>
-            <div class="btn-text">
-              <span class="btn-label">Learn Cadet</span>
-              <span class="btn-desc">Training resources & study materials</span>
-            </div>
-            <span class="btn-arrow">›</span>
-          </div>
-        </a>
-
-        <a href="https://whcncc2027-alt.github.io/whc-ncc-2027-details/" target="_blank" class="btn-card">
-          <div class="btn-inner">
-            <div class="btn-icon">🎖️</div>
-            <div class="btn-text">
-              <span class="btn-label">Cadet Details</span>
-              <span class="btn-desc">Personnel info & profile records</span>
-            </div>
-            <span class="btn-arrow">›</span>
-          </div>
-        </a>
-
-        <a href="https://whcncc2027-alt.github.io/whc-ncc-2027-register/" target="_blank" class="btn-card">
-          <div class="btn-inner">
-            <div class="btn-icon">✅</div>
-            <div class="btn-text">
-              <span class="btn-label">Attendance Mark</span>
-              <span class="btn-desc">Register presence & session log</span>
-            </div>
-            <span class="btn-arrow">›</span>
-          </div>
-        </a>
-      </nav>
-
-      <div class="divider"></div>
-    </main>
-
-    <footer class="footer">
-      WHC NCC 2027 &nbsp;·&nbsp; B/HCW Battalion &nbsp;·&nbsp; All Rights Reserved
-    </footer>
-  </div>
-</body>
-</html>
+</script></body></html>
